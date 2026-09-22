@@ -1,0 +1,15 @@
+{
+  "name": "wanderlust-platform",
+  "version": "1.0.0",
+  "description": "Ultra-Luxury Vacation Rental & Stays Marketplace with Razorpay INR and Direct Bank Settlements",
+  "scripts": {
+    "dev:client": "npm --prefix client run dev",
+    "dev:server": "npm --prefix server run server",
+    "build:client": "npm --prefix client run build",
+    "start:server": "npm --prefix server start",
+    "lint:client": "npm --prefix client run lint"
+  },
+  "keywords": ["wanderlust", "airbnb-clone", "razorpay", "react", "vite", "express", "inr"],
+  "author": "Himanshu",
+  "license": "ISC"
+}

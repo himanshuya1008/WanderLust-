@@ -1,44 +1,84 @@
-import React from 'react'
-import { assets } from '../assets/assets'
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Compass, Globe, Heart, Shield, Sparkles } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="px-6 md:px-16 lg:px-24 xl:px-32 pt-8 w-full text-gray-500 mt-20">
-    <div className="flex flex-col md:flex-row justify-between w-full gap-10 border-b border-gray-500/30 pb-6">
-        <div className="md:max-w-96">
-            <img src={assets.logo} alt="logo" className='h-9' />
-            <p className="mt-6 text-sm">
-              Experience the power of AI with QuickAi. <br />Transform your content creation with our suite of premium AI tools. Write articles, generate images, enhance your workflow.
-            </p>
-        </div>
-        <div className="flex-1 flex items-start md:justify-end gap-20">
-            <div>
-                <h2 className="font-semibold mb-5 text-gray-800">Company</h2>
-                <ul className="text-sm space-y-2">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About us</a></li>
-                    <li><a href="#">Contact us</a></li>
-                    <li><a href="#">Privacy policy</a></li>
-                </ul>
-            </div>
-            <div>
-                <h2 className="font-semibold text-gray-800 mb-5">Subscribe to our newsletter</h2>
-                <div className="text-sm space-y-2">
-                    <p>The latest news, articles, and resources, sent to your inbox weekly.</p>
-                    <div className="flex items-center gap-2 pt-4">
-                        <input className="border border-gray-500/30 placeholder-gray-500 focus:ring-2 ring-indigo-600 outline-none w-full max-w-64 h-9 rounded px-2" type="email" placeholder="Enter your email"/>
-                        <button className="bg-primary w-24 h-9 text-white rounded cursor-pointer">Subscribe</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <p className="pt-4 text-center text-xs md:text-sm pb-5">
-        Copyright 2025 © QuickAi. All Right Reserved.
-    </p>
-</footer>
-  )
-}
+    <footer className="bg-gray-50 border-t border-gray-200 mt-24 text-gray-600 text-xs">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        
+        {/* Top Destination Sitemap */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pb-12 border-b border-gray-200">
+          <div>
+            <h4 className="font-bold text-gray-900 mb-3 text-sm">Top Global Stays</h4>
+            <ul className="space-y-2">
+              <li><Link to="/" className="hover:text-black hover:underline">Santorini Cliffside Villas</Link></li>
+              <li><Link to="/" className="hover:text-black hover:underline">Bali Black Bamboo Lodges</Link></li>
+              <li><Link to="/" className="hover:text-black hover:underline">Swiss Alps Glass Chalets</Link></li>
+              <li><Link to="/" className="hover:text-black hover:underline">Amalfi Coast Sea Estates</Link></li>
+              <li><Link to="/" className="hover:text-black hover:underline">Kyoto Historic Machiyas</Link></li>
+            </ul>
+          </div>
 
-export default Footer
+          <div>
+            <h4 className="font-bold text-gray-900 mb-3 text-sm">Hosting & Community</h4>
+            <ul className="space-y-2">
+              <li><Link to="/host" className="hover:text-black hover:underline">List your Home on WanderLust</Link></li>
+              <li><Link to="/host" className="hover:text-black hover:underline">WanderCover Protection</Link></li>
+              <li><Link to="/host" className="hover:text-black hover:underline">Host Community Resources</Link></li>
+              <li><Link to="/host" className="hover:text-black hover:underline">Responsible Hosting Guide</Link></li>
+            </ul>
+          </div>
 
+          <div>
+            <h4 className="font-bold text-gray-900 mb-3 text-sm">WanderAI Intelligence</h4>
+            <ul className="space-y-2">
+              <li><Link to="/ai-planner" className="hover:text-black hover:underline">AI Vacation Itinerary Planner</Link></li>
+              <li><Link to="/ai-planner" className="hover:text-black hover:underline">Hidden Gems Concierge</Link></li>
+              <li><Link to="/ai-planner" className="hover:text-black hover:underline">Custom Packing Lists</Link></li>
+              <li><Link to="/ai-planner" className="hover:text-black hover:underline">Local Dining Recommendations</Link></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-gray-900 mb-3 text-sm">About WanderLust</h4>
+            <ul className="space-y-2">
+              <li><span className="hover:text-black cursor-pointer">Our Global Mission</span></li>
+              <li><span className="hover:text-black cursor-pointer">Luxury Curation Standards</span></li>
+              <li><span className="hover:text-black cursor-pointer">Careers & Press</span></li>
+              <li><span className="hover:text-black cursor-pointer">Privacy & Cookie Policies</span></li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-lg bg-[#FF385C] text-white flex items-center justify-center">
+              <Compass className="w-3.5 h-3.5" />
+            </div>
+            <span className="font-bold text-gray-900">wanderlust</span>
+            <span className="text-gray-400">© 2026 WanderLust Vacation Rentals, Inc. All rights reserved.</span>
+          </div>
+
+          <div className="flex items-center gap-6 font-semibold text-gray-700">
+            <div className="flex items-center gap-1.5 hover:underline cursor-pointer">
+              <Globe className="w-3.5 h-3.5" />
+              <span>English (US)</span>
+            </div>
+            <div className="hover:underline cursor-pointer">
+              <span>₹ INR</span>
+            </div>
+            <div className="flex items-center gap-1 text-[#FF385C]">
+              <Heart className="w-3.5 h-3.5 fill-[#FF385C]" />
+              <span>Crafted for Travelers</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;

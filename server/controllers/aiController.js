@@ -4,7 +4,7 @@ import { clerkClient } from "@clerk/express";
 import {v2 as cloudinary} from 'cloudinary'
 import axios from "axios";
 import fs from "fs";
-import {pdf} from "pdf-parse";
+import pdf from "pdf-parse/lib/pdf-parse.js";
 
 
 const AI = new OpenAI({
@@ -241,6 +241,76 @@ export const resumeReview = async (req, res) => {
     res.json({ success: true, content:content });
   } catch (error) {
     console.log(error.message);
+    res.json({ success: false, error: error.message });
+  }
+};
+
+export const generateTravelItinerary = async (req, res) => {
+  try {
+    const { destination, days = 3, vibe = "Adventure & Relaxation", budget = "Moderate", travelers = "2 Travelers" } = req.body;
+
+    const prompt = `You are WanderAI, the world's most sophisticated and knowledgeable luxury travel concierge and itinerary planner.
+Create a rich, beautifully structured, day-by-day vacation itinerary and travel guide for:
+- Destination: ${destination}
+- Duration: ${days} Days
+- Travel Vibe: ${vibe}
+- Budget Tier: ${budget}
+- Group: ${travelers}
+
+Format your output with rich Markdown headings, bullet points, time slots (Morning, Afternoon, Evening, Nightlife/Sunset), top local dining gems, hidden photo spots, and practical cultural/packing tips. Make it inspiring, elegant, and actionable.`;
+
+    if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim() !== "") {
+      const response = await AI.chat.completions.create({
+        model: "gemini-2.0-flash",
+        messages: [{ role: "user", content: prompt }],
+        temperature: 0.75,
+        max_tokens: 1500,
+      });
+      const content = response.choices[0].message.content;
+      return res.json({ success: true, content, destination });
+    }
+
+    // Curated fallback itinerary when GEMINI_API_KEY is not configured
+    const sampleItinerary = `## ✈️ Custom WanderLust Itinerary: ${destination || "Amalfi Coast & Capri"} (${days} Days)
+
+### 🌟 Trip Overview
+* **Vibe:** ${vibe}
+* **Travelers:** ${travelers}
+* **Budget:** ${budget}
+
+---
+
+### 🌅 Day 1: Arrival, Scenic Welcome & Golden Hour
+* **Morning:** Arrival at your luxury stay, check-in, unpack, and enjoy an espresso on the sun terrace.
+* **Afternoon:** Stroll through the charming cobbled alleys, visiting local artisan boutique shops and ceramic galleries.
+* **Sunset:** Savor handcrafted cocktails at the cliffside panorama lounge overlooking the sparkling coastline.
+* **Evening:** Intimate candlelit dinner at a Michelin-recommended seafood trattoria serving freshly caught grilled catch and house-made pasta.
+
+---
+
+### 🌊 Day 2: Signature Excursions & Hidden Gems
+* **Morning:** Private chartered wooden boat excursion around the coastal sea caves and secret swimming coves.
+* **Afternoon:** Light picnic lunch on board featuring regional cheeses, fresh figs, and chilled local wine.
+* **Late Afternoon:** Guided visit to a historic lemon orchard with limoncello tasting.
+* **Evening:** Traditional wood-fired pizza masterclass or dining under the stars.
+
+---
+
+### 🌺 Day 3: Cultural Immersion & Relaxing Farewell
+* **Morning:** Sunrise yoga or scenic cliffside hike along the panoramic trails.
+* **Afternoon:** Relaxing afternoon at a private beach club with comfortable daybeds and emerald water access.
+* **Evening:** Farewell sunset dinner at a historic clifftop estate, reflecting on unforgettable memories.
+
+---
+
+### 💡 WanderLust Insider Tips
+1. **Best Photo Spot:** Clifftop viewpoint at 6:45 PM for golden-hour illumination.
+2. **Local Delicacy:** Ask for the seasonal chef's special pasta with fresh herbs.
+3. **Getting Around:** Reserve private transfers or vintage scooter rentals in advance for seamless travel.`;
+
+    return res.json({ success: true, content: sampleItinerary, destination: destination || "Amalfi Coast" });
+  } catch (error) {
+    console.error("generateTravelItinerary error:", error);
     res.json({ success: false, error: error.message });
   }
 };

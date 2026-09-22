@@ -1,37 +1,29 @@
-# 🌌 WanderLust AI - Full-Stack SaaS Content & Image Generation Platform
+# 🌌 WanderLust – Luxury Vacation Rental & Stay Booking Platform
 
-WanderLust is an all-in-one, production-ready AI Software-as-a-Service (SaaS) platform built for creators, marketers, developers, and professionals. Leveraging cutting-edge AI technologies, it empowers users to write articles, generate catch-worthy blog titles, create breathtaking images from textual descriptions, remove backgrounds, erase unwanted objects, and review resumes. 
-
-The application is structured into a modern monorepo featuring a **React 19 + Tailwind CSS v4** frontend client and a robust **Node.js + Express + PostgreSQL (Neon DB)** backend server, protected by **Clerk Authentication** with free & premium subscription tiers.
+**WanderLust** is an ultra-premium, full-stack luxury vacation rental and hosting platform (inspired by Airbnb and high-end boutique travel marketplaces). It features end-to-end stays exploration, AI vacation trip planning, **Razorpay Dynamic UPI QR payments**, **Direct Beneficiary Bank Settlements (IMPS/NEFT) in Indian Rupees (₹ INR)**, multi-role access control (Guest, Host, Admin), and automated receipt generation.
 
 ---
 
-## ✨ Features
+## 💎 Features
 
-### ✍️ AI Content Generation
-* **AI Article Writer**: Instantly generate detailed, engaging articles on any topic using the **Gemini 2.0 Flash** model. Customize output lengths dynamically.
-* **Blog Title Generator**: Generate high-converting, SEO-optimized titles categorized by industry or general topics to boost click-through rates.
+### 🏡 Luxury Stays & Vacation Bookings
+* **Curated Luxury Accommodations**: Handpicked villas, beachfront sanctuaries, alpine chalets, historic castles, and tropical overwater bungalows.
+* **Category Filtering**: Seamless browsing across Beachfront, Luxury Villas, Cabins, Iconic Cities, Castles, Treehouses, and Lakefront stays.
+* **Interactive Live Search**: Filter listings by destination, travel dates, price range in ₹ INR (`₹5,000` – `₹1,50,000+`), and guest capacity.
+* **Wishlist Collections**: 1-click persistent favorite stays management with instant local synchronization.
 
-### 🎨 AI Image Generation & Editing
-* **Text-to-Image**: Convert descriptive text prompts into high-resolution visuals using the **ClipDrop API**.
-* **AI Background Removal**: Upload any image and cleanly extract the subject, powered by **Cloudinary's AI Transformation** models.
-* **AI Object Removal**: Specify an object to erase (e.g., "powerlines", "photobomber") and seamlessly restore the background using Cloudinary's generative remove tool (`gen_remove`).
+### 🇮🇳 100% Native Indian Rupee (₹ INR) Payments & Razorpay
+* **Razorpay UPI QR Code Checkout**: Generates instant, dynamic UPI QR codes compatible with Google Pay, PhonePe, Paytm, and BHIM UPI with real-time countdown timer and laser-scanning animations.
+* **Direct Beneficiary Bank Settlement**: Direct wire transfer (IMPS/NEFT) displaying verified merchant bank account credentials (`HDFC Bank Ltd`, A/C `50100492817291`, IFSC `HDFC0000240`) with 1-click clipboard copying and UTR confirmation.
+* **Official Invoice & Receipt Generator**: Downloadable detailed text receipts with unique booking reference codes, stay details, host information, WanderCover protection, and transaction IDs in ₹ INR.
 
-### 📄 AI Resume Reviewer
-* **Smart PDF Parsing**: Upload a resume in PDF format. The backend extracts structural layout and textual metadata using `pdf-parse`.
-* **Actionable Feedback**: Evaluates strengths, highlights core weaknesses, and generates constructive improvement recommendations using **Gemini 2.0 Flash**.
+### 🤖 AI Vacation Trip Concierge
+* **WanderAI Itinerary Generator**: Custom day-by-day vacation planning with suggested hidden gems, photo spots, local dining, and handpicked accommodations powered by Google Gemini AI.
 
-### 👥 Dashboard & Community Hub
-* **Creator Dashboard**: View personal creation statistics, history, and manage/publish generated items.
-* **Community Showcase**: A shared feed displaying published AI art creations.
-* **Engagement Engine**: Includes a reactive liking/unliking system, storing user interactions directly in PostgreSQL array structures.
-
-### 💳 Tiered Access Controls
-* **Secure Auth**: Fully guarded routes powered by Clerk (`@clerk/clerk-react` and `@clerk/express`).
-* **Subscription Tiers**:
-  - **Free Tier**: Limited to a maximum of `10` content generations (Articles / Blog Titles).
-  - **Premium Tier**: Grants access to premium capabilities (Image Generation, Background/Object Removal, Resume Review) and lifts usage constraints.
-* **Stripe & Clerk Billing**: Native pricing table integrations (`<PricingTable/>`) for seamless checkout.
+### 👑 Multi-Role Control Panels
+* **Host Management Hub (`/host-dashboard`)**: Track 30-day direct deposits (`₹24,50,000`), manage listed properties, toggle listing availability, and review guest arrivals.
+* **Admin Master Console (`/admin`)**: Monitor platform gross volume (`₹1,48,90,000`), 10% platform net commissions (`₹14,89,000`), manage user roles (Guest / Host / Super Admin), and customize beneficiary bank details.
+* **Guest Travel Hub (`/trips`)**: View confirmed reservations, reference numbers, check-in dates, and manage booking cancellations.
 
 ---
 
@@ -39,105 +31,72 @@ The application is structured into a modern monorepo featuring a **React 19 + Ta
 
 | Layer | Technologies |
 | :--- | :--- |
-| **Frontend** | React 19, Vite, Tailwind CSS v4, React Router Dom v7, Axios, Lucide React, React Hot Toast |
-| **Backend** | Node.js, Express.js, Clerk Express, Multer, PDF-Parse, Axios |
-| **Database** | PostgreSQL (hosted via **Neon Database Serverless**) |
-| **AI & Media Services** | Google Gemini (via OpenAI SDK gateway), ClipDrop API, Cloudinary (for image transformations & storage) |
-| **Authentication** | Clerk Auth |
+| **Frontend** | React 19, Vite, Tailwind CSS, Lucide Icons, React Router v7, Axios, React Hot Toast |
+| **Backend** | Node.js, Express.js, Clerk Auth, Neon PostgreSQL, Multer, Cloudinary |
+| **Payments** | Razorpay UPI Gateway, Direct Beneficiary IMPS/NEFT Settlements (₹ INR) |
+| **AI Integration** | Google Gemini 2.0 Flash (AI Trip Concierge & Content Tools) |
+| **Deployment** | **Vercel** (Frontend) & **Render** (Backend) |
 
 ---
 
-## 💾 Database Schema (PostgreSQL)
+## 🚀 Quick Start (Local Development)
 
-The platform runs on a relational PostgreSQL database. Here is the structure of the central `creations` table:
+### 1. Clone & Install Dependencies
+```bash
+git clone https://github.com/himanshuya1008/WanderLust-.git
+cd WanderLust-
 
-```sql
-CREATE TABLE creations (
-    id SERIAL PRIMARY KEY,
-    user_id VARCHAR(255) NOT NULL,
-    prompt TEXT NOT NULL,
-    content TEXT NOT NULL,
-    type VARCHAR(50) NOT NULL, -- 'article', 'blog-title', 'image', 'resume-review'
-    publish BOOLEAN DEFAULT FALSE,
-    likes TEXT[] DEFAULT '{}',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+# Install client dependencies
+cd client
+npm install
+
+# Install server dependencies
+cd ../server
+npm install
 ```
 
----
+### 2. Environment Variables Configuration
 
-## ⚙️ Environment Configuration
-
-To run this project locally, configure the environment files for both the client and server.
-
-### 1. Server Environment Variables
-Create a file named `.env` in the `server` directory:
-
+**Backend (`server/.env`):**
 ```env
 PORT=3000
 DATABASE_URL=your_neon_postgresql_uri
 GEMINI_API_KEY=your_gemini_api_key
-CLIPDROP_API_KEY=your_clipdrop_api_key
-CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
-CLOUDINARY_API_KEY=your_cloudinary_api_key
-CLOUDINARY_API_SECRET=your_cloudinary_api_secret
-CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
-CLERK_SECRET_KEY=your_clerk_secret_key
+RAZORPAY_KEY_ID=rzp_test_wanderlust_luxury_2026
+MERCHANT_UPI_ID=wanderlust.rentals@razorpay
+MERCHANT_ACCOUNT_NAME=Himanshu (WanderLust Stays)
+MERCHANT_BANK_NAME=HDFC Bank Ltd
+MERCHANT_ACCOUNT_NO=50100492817291
+MERCHANT_IFSC_CODE=HDFC0000240
 ```
 
-### 2. Client Environment Variables
-Create a file named `.env.local` in the `client` directory:
-
+**Frontend (`client/.env.local`):**
 ```env
-VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+VITE_BASE_URL=http://localhost:3000
 VITE_BACKEND_URL=http://localhost:3000
 ```
 
----
-
-## 🚀 Setup & Installation
-
-### Prerequisites
-Make sure you have [Node.js (v18+)](https://nodejs.org/) and [npm](https://www.npmjs.com/) installed on your machine.
-
-### Step 1: Clone the Repository
+### 3. Run Development Servers
 ```bash
-git clone https://github.com/himanshuya1008/WanderLust-.git
-cd WanderLust-
+# In server directory:
+node server.js
+
+# In client directory:
+npm run dev
 ```
 
-### Step 2: Run the Backend Server
-1. Navigate to the server folder:
-   ```bash
-   cd server
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the node server in development mode (using nodemon):
-   ```bash
-   npm run server
-   ```
-   *The backend will boot up on `http://localhost:3000`.*
-
-### Step 3: Run the Frontend Client
-1. Open a new terminal and navigate to the client folder:
-   ```bash
-   cd client
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Launch the development server:
-   ```bash
-   npm run dev
-   ```
-   *The application will launch on `http://localhost:5173`.*
+Visit **http://localhost:5173** to explore WanderLust.
 
 ---
 
-## 🧑‍💻 License
+## 🌐 Cloud Deployment (Render & Vercel)
 
-This project is licensed under the ISC License.
+See [`DEPLOYMENT.md`](./DEPLOYMENT.md) for full step-by-step instructions.
+
+- **Backend (Render):** Deploy using the included `render.yaml` blueprint with root directory `server`.
+- **Frontend (Vercel):** Connect repository with root directory `client` and set `VITE_BASE_URL` to your Render API URL.
+
+---
+
+## 📄 License
+This project is open-source under the MIT License.
